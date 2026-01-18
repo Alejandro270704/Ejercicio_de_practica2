@@ -7,42 +7,44 @@ package CONTROLADOR;
 import MODELO.BENEFICIARIO;
 import MODELO.COLABORADOR;
 import MODELO.EMPLEADO;
+import MODELO.PERSONA;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class FUNCIONES extends FUNCIONES_ABSTRACTA {
-    EMPLEADO e;
-    COLABORADOR c;
-    BENEFICIARIO b;
-    public void menu(){
-    int op =0;
-    do{
-        System.out.println("""
+
+    ArrayList<PERSONA> personas = new ArrayList<>();
+
+    public void menu() {
+        int op = 0;
+        do {
+            System.out.println("""
                            1. registrar persona
                            2. ver persona
                            3. salir
                            """);
-    op = new Scanner(System.in).nextInt();
-    while(op<1|| op>5){
-        System.out.println("error opcion no valida");
-        System.out.println("""
+            op = new Scanner(System.in).nextInt();
+            while (op < 1 || op > 5) {
+                System.out.println("error opcion no valida");
+                System.out.println("""
                            1. registrar persona
                            2. ver persona
                            3. salir
-                           """);    
-        op = new Scanner(System.in).nextInt();
-            
+                           """);
+                op = new Scanner(System.in).nextInt();
 
+            }
+            switch (op) {
+                case 1:
+                    registrar();
+                    break;
+                case 2:
+                    verPersona();
+                    break;
+            }
+        } while (op != 3);
     }
-    switch(op){
-        case 1:
-            registrar();
-            break;
-        case 2: 
-            verPersona();
-            break;
-    }
-    }while(op!=3);
-}
+
     @Override
     public void registrar() {
         String tipopersona;
@@ -86,8 +88,9 @@ public class FUNCIONES extends FUNCIONES_ABSTRACTA {
                 }
 
                 tipopersona = "empleado";
-                e = new EMPLEADO(salario, horario, nombre, apellido, direccion, edad, tipopersona);
-                                System.out.println("persona registrada");
+                EMPLEADO e = new EMPLEADO(salario, horario, nombre, apellido, direccion, edad, tipopersona);
+                personas.add(e);
+                System.out.println("Empleado registrado");
 
                 break;
 
@@ -100,8 +103,9 @@ public class FUNCIONES extends FUNCIONES_ABSTRACTA {
 
                 }
                 tipopersona = "colaborador";
-                c = new COLABORADOR(hora, nombre, apellido, direccion, edad, tipopersona);
-                                System.out.println("persona registrada");
+                COLABORADOR c = new COLABORADOR(hora, nombre, apellido, direccion, edad, tipopersona);
+                personas.add(c);
+                System.out.println("Colaborador registrado");
 
                 break;
             case 3:
@@ -113,27 +117,25 @@ public class FUNCIONES extends FUNCIONES_ABSTRACTA {
                     cantidad = new Scanner(System.in).nextInt();
 
                 }
-                b= new BENEFICIARIO(cantidad, nombre, apellido, direccion, edad, tipopersona);
-                System.out.println("persona registrada");
+                BENEFICIARIO b = new BENEFICIARIO(cantidad, nombre, apellido, direccion, edad, tipopersona);
+                personas.add(b);
+                System.out.println("Beneficiario registrado");
         }
 
     }
 
     public void verPersona() {
-         if (e != null) {
-        System.out.println("Empleado: " + e.getNombre());
-    }
+        if (personas.size() == 0) {
+            System.out.println("No hay personas registradas");
+            return;
+        }
+        for (int i = 0; i < personas.size(); i++) {
+            PERSONA p = personas.get(i);
 
-    if (c != null) {
-        System.out.println("Colaborador: " + c.getNombre());
-    }
-
-    if (b != null) {
-        System.out.println("Beneficiario: " + b.getNombre());
-    }
-
-    if (e == null && c == null && b == null) {
-        System.out.println("No hay personas registradas");
-    }
+            System.out.println("Nombre: " + p.getNombre());
+            System.out.println("Apellido: " + p.getApellido());
+            System.out.println("Tipo: " + p.getTipoPersona());
+            System.out.println("----------------------");
+        }
     }
 }

@@ -52,4 +52,7 @@ public  class PERSONA {
     public void presentarse(){
         System.out.println("hola mi nombre es" + getNombre() + getApellido());
     }
+    public String getTipoPersona() {
+    return tipoPersona;
+}
 }
